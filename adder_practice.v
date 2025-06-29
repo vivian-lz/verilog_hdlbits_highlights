@@ -1,4 +1,27 @@
 //given module add16 ( input[15:0] a, input[15:0] b, input cin, output[15:0] sum, output cout );
+//An adder-subtractor can be built from an adder by optionally negating one of the inputs, which is equivalent 
+//to inverting the input then adding 1. The net result is a circuit that can do two operations: (a + b + 0) 
+//and (a + ~b + 1).
+//subtractor utilizes twos complement, where a - b is done with a + ~b + 1
+//Use a 32-bit wide XOR gate to invert the b input whenever sub is 1. 
+//(This can also be viewed as b[31:0] XORed with sub replicated 32 times. See replication operator.). 
+//Also connect the sub input to the carry-in of the adder.
+module adder_subtractor(
+    input [31:0] a,
+    input [31:0] b,
+    input sub,
+    output [31:0] sum
+);
+    wire [31:0] xor_gate;
+    wire carry_internal;
+    assign xor_gate = b ^ {32{sub}};
+    add16 lower (a[15:0], xor_gate[15:0], sub, sum[15:0], carry_internal);
+    add16 higher (a[31:16], xor_gate[31:16], carry_internal, sum[31:16]);
+
+endmodule
+
+
+//given module add16 ( input[15:0] a, input[15:0] b, input cin, output[15:0] sum, output cout );
 //carry select adder improves the performance and speed of the 32 bit adder
 
 module carry_select_adder(
