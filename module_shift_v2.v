@@ -5,14 +5,14 @@
 //The value at the input d, after the first, after the second, or after the third D flip-flop. 
 //(Essentially, sel selects how many cycles to delay the input, from zero to three clock cycles.)
 
-module mux_4to1 (input in3, input in2, input in1,input in0, input [1:0] sel, output [7:0] out);
+module mux_4to1 (input [7:0] in3, input [7:0] in2, input [7:0] in1, input [7:0] in0, input [1:0] sel, output [7:0] out);
     //mux code here
     always @(*) begin
         case (sel)
-            2'b00: out = in0;
-            2'b01: out = in1;
-            2'b10: out = in2;
-            2'b11: out = in3;
+            2'd0: out = in0;
+            2'd1: out = in1;
+            2'd2: out = in2;
+            2'd3: out = in3;
         endcase
     end
         
@@ -30,3 +30,4 @@ module top_module (input clk, input [7:0] d, input [1:0] sel, output [7:0] q);
     mux_4to1 instance_mux (three, two, one, d, sel, q);
 
 endmodule
+
