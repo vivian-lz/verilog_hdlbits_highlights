@@ -8,7 +8,7 @@
 module mux_4to1 (input in3, input in2, input in1,input in0, input [1:0] sel, output [7:0] out);
     //mux code here
     always @(*) begin
-        case (in0)
+        case (sel)
             2'b00: out = in0;
             2'b01: out = in1;
             2'b10: out = in2;
